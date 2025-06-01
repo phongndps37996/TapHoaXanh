@@ -8,7 +8,6 @@ export class Product {
     name: string;
     @Column()
     image: string;
-    @Column()
-    price: number;
+    
 
 }

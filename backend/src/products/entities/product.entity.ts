@@ -1,5 +1,6 @@
 import { Category } from "src/category/entities/category.entity";
 import { AbstractEntity } from "src/database/database.entity";
+import { ProductImage } from "src/product-images/entities/product-image.entity";
 import { ProductVariant } from "src/product-variant/entities/product-variant.entity";
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 
@@ -43,6 +44,9 @@ export class Product extends AbstractEntity<Product> {
 
     @OneToMany(() => ProductVariant, (variant) => variant.product)
     variants: ProductVariant[];
+
+    @OneToMany(() => ProductImage, (image) => image.product)
+    image: ProductImage;
 
 
 

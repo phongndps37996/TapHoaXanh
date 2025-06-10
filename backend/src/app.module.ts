@@ -5,10 +5,19 @@ import { CategoriesModule } from './category/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { ProductVariantModule } from './product-variant/product-variant.module';
 import { ProductImagesModule } from './product-images/product-images.module';
+import { BrandModule } from './brand/brand.module';
 
 @Module({
-imports: [ConfigModule.forRoot({isGlobal: true}), ProductsModule, CategoriesModule,DatabaseModule, ProductVariantModule, ProductImagesModule ],
-controllers: [],
-providers: [],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    ProductsModule,
+    CategoriesModule,
+    DatabaseModule,
+    ProductVariantModule,
+    ProductImagesModule,
+    BrandModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

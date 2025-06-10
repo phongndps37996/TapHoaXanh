@@ -1,24 +1,24 @@
-import { AbstractEntity } from "src/database/database.entity";
-import { Product } from "src/products/entities/product.entity";
-import { Column, Entity, OneToMany } from "typeorm";
+import { AbstractEntity } from 'src/database/database.entity';
+import { Product } from 'src/products/entities/product.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('category')
-export class Category extends AbstractEntity<Category>{
-    @Column()
-    name: string;
+export class Category extends AbstractEntity<Category> {
+  @Column()
+  name: string;
 
-    @Column()
-    slug: string;
+  @Column()
+  slug: string;
 
-    @Column()
-    parent_id: number;
+  @Column()
+  parent_id: number;
 
-    @Column({nullable: true})
-    description: string;
+  @Column({ nullable: true })
+  description: string;
 
-    @Column()
-    is_active: boolean;
+  @Column()
+  is_active: boolean;
 
-    @OneToMany(() => Product, (product) => product.category)
-    product: Product[];
+  @OneToMany(() => Product, (product) => product.category)
+  product: Product[];
 }

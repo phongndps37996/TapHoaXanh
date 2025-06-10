@@ -1,55 +1,54 @@
-import { Category } from "src/category/entities/category.entity";
-import { AbstractEntity } from "src/database/database.entity";
-import { ProductImage } from "src/product-images/entities/product-image.entity";
-import { ProductVariant } from "src/product-variant/entities/product-variant.entity";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Brand } from 'src/brand/entities/brand.entity';
+import { Category } from 'src/category/entities/category.entity';
+import { AbstractEntity } from 'src/database/database.entity';
+import { ProductImage } from 'src/product-images/entities/product-image.entity';
+import { ProductVariant } from 'src/product-variant/entities/product-variant.entity';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('product')
 export class Product extends AbstractEntity<Product> {
-    @Column()
-    name:string;
+  @Column()
+  name: string;
 
-    @Column()
-    price:number;
+  @Column()
+  price: number;
 
-    @Column()
-    discount:number;
+  @Column()
+  discount: number;
 
-    @Column()
-    images:string;
+  @Column()
+  images: string;
 
-    @Column()
-    slug:string;
+  @Column()
+  slug: string;
 
-    @Column({ unique: true })
-    barcode:string;
+  @Column({ unique: true })
+  barcode: string;
 
-    @Column()
-    expiry_date:Date;
+  @Column()
+  expiry_date: Date;
 
-    @Column()
-    origin:string;
+  @Column()
+  origin: string;
 
-    @Column()
-    weight_unit:string;
+  @Column()
+  weight_unit: string;
 
-    @Column({nullable: true})
-    description:string;
+  @Column({ nullable: true })
+  description: string;
 
-    @Column()
-    quantity:number;
+  @Column()
+  quantity: number;
 
-    @ManyToOne(() => Category,(category) => category.product)
-    category: Category;
+  @ManyToOne(() => Category, (category) => category.product)
+  category: Category;
 
-    @OneToMany(() => ProductVariant, (variant) => variant.product)
-    variants: ProductVariant[];
+  @OneToMany(() => ProductVariant, (variant) => variant.product)
+  variants: ProductVariant[];
 
-    @OneToMany(() => ProductImage, (image) => image.product)
-    image: ProductImage;
+  @OneToMany(() => ProductImage, (image) => image.product)
+  image: ProductImage;
 
-
-
-
-
+  @ManyToOne(() => Brand, (brand) => brand.product)
+  brand: Brand;
 }

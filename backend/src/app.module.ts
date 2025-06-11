@@ -6,6 +6,8 @@ import { DatabaseModule } from './database/database.module';
 import { ProductVariantModule } from './product-variant/product-variant.module';
 import { ProductImagesModule } from './product-images/product-images.module';
 import { BrandModule } from './brand/brand.module';
+import { UsersModule } from './users/users.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { BrandModule } from './brand/brand.module';
     ProductVariantModule,
     ProductImagesModule,
     BrandModule,
+    UsersModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [],

@@ -13,12 +13,6 @@ export class Category extends AbstractEntity<Category> {
   @Column()
   parent_id: number;
 
-  @Column({ nullable: true })
-  description: string;
-
-  @Column()
-  is_active: boolean;
-
   @OneToMany(() => Product, (product) => product.category)
   product: Product[];
 }

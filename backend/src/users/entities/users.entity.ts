@@ -20,10 +20,13 @@ export class Users extends AbstractEntity<Users> {
   image: string;
 
   @Column()
-  sell_ticket: boolean;
+  role: string;
 
   @Column()
-  role: string;
+  email: string;
+
+  @Column()
+  password: string;
 
   @OneToMany(() => Address, (address) => address.users)
   address: Address[];

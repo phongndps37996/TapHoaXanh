@@ -17,8 +17,8 @@ export class BrandService {
     return saveBrand;
   }
 
-  findAll() {
-    return `This action returns all brand`;
+  async findAll() {
+    return await this.categoryRepository.find();
   }
 
   findOne(id: number) {

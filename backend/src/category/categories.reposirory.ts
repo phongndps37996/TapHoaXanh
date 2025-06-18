@@ -12,4 +12,9 @@ export class CategoryRepository extends BaseRepository<Category> {
   ) {
     super(categoryRepository);
   }
+
+  // Tìm kiếm category theo tên
+  async findByName(name: string): Promise<Category | null> {
+    return this.categoryRepository.findOne({ where: { name } });
+  }
 }

@@ -1,4 +1,5 @@
 import { DeepPartial, FindOptionsWhere, ObjectLiteral, Repository } from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 export abstract class BaseRepository<T extends ObjectLiteral> {
   constructor(private readonly repository: Repository<T>) {}
@@ -17,5 +18,13 @@ export abstract class BaseRepository<T extends ObjectLiteral> {
 
   save(data: DeepPartial<T>): Promise<T> {
     return this.repository.save(data);
+  }
+
+  async delete(id: number) {
+    return await this.repository.softDelete(id);
+  }
+
+  async update(id: number, data: QueryDeepPartialEntity<T>) {
+    return this.repository.update(id, data);
   }
 }

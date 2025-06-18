@@ -34,17 +34,17 @@ export class ProductsService {
 
   async update(id: number, updateProductDto: UpdateProductDto) {
     // b1: kiểm tra sản phẩm tồn tại
-    const sp_tontai = await this.productRepository.findById(id);
+    const existProduct = await this.productRepository.findById(id);
     if (updateProductDto.barcode) {
-      const masp = await this.productRepository.findByCode(updateProductDto.barcode);
-      if (masp) throw new BadRequestException('mã code sản phẩm đã tồn tại');
+      const idProduct = await this.productRepository.findByCode(updateProductDto.barcode);
+      if (idProduct) throw new BadRequestException('mã code sản phẩm đã tồn tại');
     }
 
-    if (!sp_tontai) throw new NotFoundException('san pham k ton tai');
+    if (!existProduct) throw new NotFoundException('san pham k ton tai');
 
     //b2 cap nhat
     const updateProduct = this.productRepository.create({
-      ...sp_tontai,
+      ...existProduct,
       ...updateProductDto,
     });
     //b3 luu lai
@@ -57,7 +57,16 @@ export class ProductsService {
     return data;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    // kiểm tra tồn tại trước khi xóa
+    const existProduct = await this.productRepository.findById(id);
+    if (!existProduct) throw new NotFoundException('Sản phẩm không tồn tại');
+    await this.productRepository.delete(id); // Giả sử có hàm này
+    return { message: 'Xóa thành công' };
+  }
+
+  async restore(id: number) {
+    await this.productRepository.update(id, { deletedAt: null });
+    return { message: 'Khôi phục thành công' };
   }
 }

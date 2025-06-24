@@ -16,4 +16,10 @@ export class ProductRepository extends BaseRepository<Product> {
   async findByCode(barcode: string) {
     return this.productRepository.findOne({ where: { barcode } as FindOptionsWhere<Product> });
   }
+
+  async findByCategory(categoryId: number) {
+    return this.productRepository.find({
+      where: { category: { id: categoryId } } as FindOptionsWhere<Product>,
+    });
+  }
 }

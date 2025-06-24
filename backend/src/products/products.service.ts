@@ -28,6 +28,13 @@ export class ProductsService {
     return await this.productRepository.findAll();
   }
 
+  // show sp theo danh muc
+  async findByCategory(categoryId: number) {
+    const existCategory = await this.categoryRepository.findById(categoryId);
+    if (!existCategory) throw new NotFoundException('Danh mục không tồn tại');
+    return await this.productRepository.findByCategory(categoryId);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} product`;
   }

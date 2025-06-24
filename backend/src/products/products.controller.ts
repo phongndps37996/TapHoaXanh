@@ -19,7 +19,12 @@ export class ProductsController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne(id);
+  }
+
+  @Get('cate/:id')
+  findByCategory(@Param('id') id: number) {
+    return this.productsService.findByCategory(id);
   }
 
   @Patch('restore/:id')

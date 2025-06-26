@@ -9,8 +9,6 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
   });
-    origin: '*',
-  });
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')
@@ -19,7 +17,6 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
   await app.listen(process.env.PORT ?? 5000);
-  await app.listen(process.env.PORT ?? 5000);
-  console.log(`Ứng dụng đang chạy với port: ${process.env.PORT ?? 5000}`);
+  console.log(`Ứng dụng đang chạy với port: ${process.env.PORT ?? 4000}`);
 }
 bootstrap();

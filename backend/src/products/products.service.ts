@@ -35,6 +35,14 @@ export class ProductsService {
     return await this.productRepository.findByCategory(categoryId);
   }
 
+  // show sp theo id
+  async productDetail(id: number) {
+    const existProduct = await this.productRepository.findById(id);
+    if (!existProduct) throw new NotFoundException('Sản phẩm không tồn tại');
+    return existProduct;
+  }
+  
+
   findOne(id: number) {
     return `This action returns a #${id} product`;
   }

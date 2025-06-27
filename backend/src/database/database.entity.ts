@@ -11,5 +11,5 @@ export abstract class AbstractEntity<T> extends BaseEntity {
   updatedAt: Date;
 
   @DeleteDateColumn({ nullable: true })
-  deletedAt: Date;
+  deletedAt: Date | null;
 }

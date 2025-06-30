@@ -1,41 +1,41 @@
 import { Injectable, UnauthorizedException, NotFoundException, Inject } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { RegisterAuthDto } from './dto/register.dto';
+import { RegisterAuthDto } from 'src/auth/dto/register.dto';
 import { IUsersRepository } from 'src/users/interfaces/iusers-repository.interface';
 import * as nodemailer from 'nodemailer';
+import { IAuthService } from 'src/auth/interfaces/iauth-service.interface';
 @Injectable()
-export class AuthService {
-  constructor(@Inject(IUsersRepository) private readonly userRepository: IUsersRepository) {}
+export class AuthService implements IAuthService {
+  constructor(@Inject(IUsersRepository) private readonly _userRepository: IUsersRepository) {}
 
-  async getUserById(id: number) {
-    const user = await this.userRepository.findById(id);
-    if (!user) throw new NotFoundException('User not found');
-    return user;
-  }
   async register(registerDto: RegisterAuthDto) {
-    const existUser = await this.userRepository.findByEmail(registerDto.email);
-    if (existUser) throw new UnauthorizedException('Email đã tồn tại');
+    const existUser = await this._userRepository.findByEmail(registerDto.email);
+    if (existUser) throw new NotFoundException('Email đã tồn tại');
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-    const user = await this.userRepository.createUser({
+    const user = await this._userRepository.createUser({
       ...registerDto,
       password: hashedPassword,
     });
     return user;
   }
+
   async login(email: string, password: string) {
-    const user = await this.userRepository.findByEmail(email);
-    if (!user) throw new UnauthorizedException('Email không tồn tại');
+    const user = await this._userRepository.findByEmail(email);
+    if (!user) throw new UnauthorizedException('Sai email hoặc mật khẩu');
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new UnauthorizedException('Sai mật khẩu');
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    if (!isMatch) throw new UnauthorizedException('Sai email hoặc mật khẩu');
+    // const { password: _, ...userWithoutPassword } = user;
+
+    // TODO: Generate JWT token here
+    return true;
   }
+
   async forgotPassword(email: string) {
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this._userRepository.findByEmail(email);
     if (!user) throw new NotFoundException('Email không tồn tại!');
     const newPass = Math.random().toString(36).slice(-8);
     const hashedPassword = await bcrypt.hash(newPass, 10);
-    await this.userRepository.updatePassword(email, hashedPassword);
+    await this._userRepository.updatePassword(email, hashedPassword);
 
     // Gửi email mật khẩu mới
     const transporter = nodemailer.createTransport({

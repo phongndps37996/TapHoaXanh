@@ -9,12 +9,12 @@ import { IUsersRepository } from '../interfaces/iusers-repository.interface';
 export class UsersService implements IUsersService {
   constructor(private readonly _usersRepository: IUsersRepository) {}
 
-  async createUser(registerDto: RegisterAuthDto): Promise<Users> {
-    const existing = await this._usersRepository.findByEmail(registerDto.email);
-    if (existing) throw new ConflictException('Email đã tồn tại');
-    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-    return this._usersRepository.createUser({ ...registerDto, password: hashedPassword, role: 'user' });
-  }
+  // async createUser(registerDto: RegisterAuthDto): Promise<Users> {
+  //   const existing = await this._usersRepository.findByEmail(registerDto.email);
+  //   if (existing) throw new ConflictException('Email đã tồn tại');
+  //   const hashedPassword = await bcrypt.hash(registerDto.password, 10);
+  //   return this._usersRepository.createUser({ ...registerDto, password: hashedPassword, role: 'user' });
+  // }
 
   async findByEmail(email: string): Promise<Users | null> {
     return await this._usersRepository.findByEmail(email);

@@ -1,31 +1,59 @@
-import { Injectable } from '@nestjs/common';
+// cart.service.ts
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Cart } from './entities/cart.entity';
+import { Repository } from 'typeorm';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { CartRepository } from './cart.reposirory';
 
 @Injectable()
 export class CartService {
-  constructor(private readonly cartRepository: CartRepository) {}
+  constructor(
+    @InjectRepository(Cart)
+    private cartRepo: Repository<Cart>,
+  ) {}
 
-  async addToCart(createCartDto: CreateCartDto) {
-    // Kiểm tra cart đã tồn tại
-    const newCart = await this.cartRepository.findById(createCartDto.usersId);
-    return newCart;
+  async addToCart(dto: CreateCartDto) {
+    let cartItem = await this.cartRepo.findOne({
+      where: {
+        user: { id: dto.userId },
+        product: { id: dto.productId },
+      },
+      relations: ['user', 'product'],
+    });
+
+    if (cartItem) {
+      cartItem.quantity += dto.quantity;
+    } else {
+      cartItem = this.cartRepo.create({
+        user: { id: dto.userId },
+        product: { id: dto.productId },
+        quantity: dto.quantity,
+      });
+    }
+
+    return this.cartRepo.save(cartItem);
   }
 
-  findAll() {
-    return `This action returns all cart`;
+  async getCartByUser(userId: number) {
+    return this.cartRepo.find({
+      where: { user: { id: userId } },
+      relations: ['product'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cart`;
+  async updateQuantity(id: number, dto: UpdateCartDto) {
+    const item = await this.cartRepo.findOneBy({ id });
+    if (!item) throw new NotFoundException('Cart item not found');
+    item.quantity = dto.quantity ?? item.quantity;
+    return this.cartRepo.save(item);
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
+  async removeItem(id: number) {
+    return this.cartRepo.delete(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cart`;
+  async clearCart(userId: number) {
+    return this.cartRepo.delete({ user: { id: userId } });
   }
 }

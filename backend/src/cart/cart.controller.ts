@@ -1,39 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+// cart.controller.ts
+import {
+  Controller, Post, Body, Get, Param, Patch, Delete,
+} from '@nestjs/common';
+import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { CartService } from './cart.service';
 
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  @Post()
-  create(@Body() createCartDto: CreateCartDto) {
-    // Tạo mới giỏ hàng hoặc thêm sản phẩm vào giỏ
-    return this.cartService.addToCart(createCartDto);
+  @Post('add')
+  add(@Body() dto: CreateCartDto) {
+    return this.cartService.addToCart(dto);
   }
 
-  @Get()
-  findAll() {
-    // Lấy tất cả các giỏ hàng (chỉ nên dùng cho admin/dev)
-    return this.cartService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    // Lấy 1 giỏ hàng theo id (nhớ ép kiểu về number)
-    return this.cartService.findOne(Number(id));
+  @Get(':userId')
+  getCart(@Param('userId') userId: number) {
+    return this.cartService.getCartByUser(userId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    // Cập nhật giỏ hàng theo id
-    return this.cartService.update(Number(id), updateCartDto);
+  update(@Param('id') id: number, @Body() dto: UpdateCartDto) {
+    return this.cartService.updateQuantity(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // Xóa giỏ hàng theo id
-    return this.cartService.remove(Number(id));
+  deleteItem(@Param('id') id: number) {
+    return this.cartService.removeItem(id);
+  }
+
+  @Delete('clear/:userId')
+  clear(@Param('userId') userId: number) {
+    return this.cartService.clearCart(userId);
   }
 }

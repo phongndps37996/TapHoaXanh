@@ -18,10 +18,13 @@ import { WishlistModule } from './wishlist/wishlist.module';
 import { CartModule } from './cart/cart.module';
 import { CartItemModule } from './cart_item/cart_item.module';
 import { NewsModule } from './news/news.module';
+import { AuthModule } from './auth/auth.module';
+import { CategoryChildModule } from './category-child/category-child.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
     ProductsModule,
     CategoriesModule,
     DatabaseModule,
@@ -40,6 +43,7 @@ import { NewsModule } from './news/news.module';
     CartModule,
     CartItemModule,
     NewsModule,
+    CategoryChildModule,
   ],
   controllers: [],
   providers: [],

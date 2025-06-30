@@ -9,6 +9,8 @@ import { Rating } from 'src/rating/entities/rating.entity';
 import { Wishlist } from 'src/wishlist/entities/wishlist.entity';
 import { CategoryChild } from '../../category-child/entities/category-child.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Cart } from 'src/cart/entities/cart.entity';
+
 import { JoinColumn } from 'typeorm';
 
 @Entity('product')
@@ -55,6 +57,10 @@ export class Product extends AbstractEntity<Product> {
   @OneToMany(() => ProductVariant, (variant) => variant.product)
   variants: ProductVariant[];
 
+  
+  @OneToMany(() => Cart, (cart) => cart.product)
+  carts: Cart[];
+
   @OneToMany(() => ProductImage, (image) => image.product)
   image: ProductImage;
 
@@ -70,8 +76,9 @@ export class Product extends AbstractEntity<Product> {
   @OneToMany(() => Wishlist, (wishlist) => wishlist.product)
   wishlist: Wishlist[];
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
-  cartItem: CartItem[];
+  @OneToMany(() => CartItem, (item) => item.cart)
+  cartItems: CartItem[];
+
   @ManyToOne(() => CategoryChild, (child) => child.products, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'category_childId' })
   category_child: CategoryChild;

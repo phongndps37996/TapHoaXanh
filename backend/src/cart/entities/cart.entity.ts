@@ -1,13 +1,23 @@
-import { CartItem } from 'src/cart_item/entities/cart_item.entity';
-import { AbstractEntity } from 'src/database/database.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Product } from 'src/products/entities/product.entity';
 import { Users } from 'src/users/entities/users.entity';
-import { Entity, ManyToOne, OneToMany } from 'typeorm';
+import { CartItem } from 'src/cart_item/entities/cart_item.entity';
 
 @Entity('cart')
-export class Cart extends AbstractEntity<Cart> {
-  @ManyToOne(() => Users, (users) => users.cart)
-  users: Users;
+export class Cart {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
-  cartItem: CartItem[];
+  @ManyToOne(() => Users, (user) => user.cart)
+  @JoinColumn({ name: 'user_id' })
+  user: Users;
+
+  @ManyToOne(() => Product, (product) => product.cartItems)
+  @JoinColumn({ name: 'product_id' })
+  product: Product;
+
+  @Column({ type: 'int', default: 1 })
+  quantity: number;
+  @OneToMany(() => CartItem, (item) => item.cart)
+  cartItems: CartItem[];
 }

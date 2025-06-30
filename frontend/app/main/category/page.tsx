@@ -38,7 +38,7 @@ export default function CategoryPage() {
   // Lấy sản phẩm từ API
   useEffect(() => {
     api.get('/products').then(res => {
-      let data = res.data
+      const data = res.data
       let productList: Product[] = []
 
       if (Array.isArray(data)) {

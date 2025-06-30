@@ -40,6 +40,7 @@ export class Users extends AbstractEntity<Users> {
   rating: Rating[];
   @OneToMany(() => Wishlist, (wishlist) => wishlist.users)
   wishlist: Wishlist[];
-  @OneToMany(() => Cart, (cart) => cart.users)
+  @OneToMany(() => Cart, (cart) => cart.user)
   cart: Cart[];
+
 }

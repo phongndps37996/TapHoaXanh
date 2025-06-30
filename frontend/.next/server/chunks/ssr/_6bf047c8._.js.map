@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///D:/WorkSpace/TapHoaXanh/frontend/app/main/user/page.tsx"],"sourcesContent":["'use client'\r\nexport default function ProfilePage() {\r\n  return (\r\n    <div>\r\n      <h2>Thông tin người dùng</h2>\r\n      <p>Đây là trang hồ sơ cá nhân. Bạn có thể mở rộng thêm thông tin tại đây.</p>\r\n    </div>\r\n  )\r\n}\r\n"],"names":[],"mappings":";;;;AAAA;;AACe,SAAS;IACtB,qBACE,8OAAC;;0BACC,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;;;;;;;AAGT","debugId":null}},
+    {"offset": {"line": 42, "column": 0}, "map": {"version":3,"sources":["file:///D:/WorkSpace/TapHoaXanh/frontend/node_modules/next/src/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = require('../../module.compiled').vendored[\n  'react-ssr'\n].ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":";AAAAA,OAAOC,OAAO,GAAGC,QAAQ,4HAAyBC,QAAQ,CACxD,YACD,CAACC,kBAAkB","ignoreList":[0],"debugId":null}}]
+}
